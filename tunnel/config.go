@@ -70,13 +70,8 @@ func (r SSHConfigFile) Get(host string) *SSHHost {
 
 func (r SSHConfigFile) getHostname(host string) string {
 	hostname, err := r.sshConfig.Get(host, "Hostname")
-
 	if err != nil {
-		return host
-	}
-
-	if hostname == "" {
-		hostname = host
+		return ""
 	}
 
 	return hostname
@@ -103,11 +98,7 @@ func (r SSHConfigFile) getLocalForward(host string) (*LocalForward, error) {
 	local = l[0]
 	remote = l[1]
 
-	if strings.HasPrefix(local, ":") {
-		local = fmt.Sprintf("127.0.0.1%s", local)
-	}
-
-	if local != "" && !strings.Contains(local, ":") {
+	if !strings.Contains(local, ":") {
 		local = fmt.Sprintf("127.0.0.1:%s", local)
 	}
 
@@ -117,7 +108,6 @@ func (r SSHConfigFile) getLocalForward(host string) (*LocalForward, error) {
 
 func (r SSHConfigFile) getKey(host string) string {
 	id, err := r.sshConfig.Get(host, "IdentityFile")
-
 	if err != nil {
 		return ""
 	}

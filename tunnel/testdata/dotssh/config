@@ -9,3 +9,6 @@ Host test*
     Port 2223
     User mole_test2
     IdentityFile ~/.ssh/other_key
+
+Host local-forward-example
+    LocalForward 8443 example.com:443
